@@ -8,41 +8,31 @@
 
     <!-- 添加项目组 -->
     <!-- <p class="li-p"><span class="el-alert__icon el-icon-info"> </span>目前没有活动</p> -->
-    <ul>
-      <li v-for="(item, i) in liss" :key="i">
-        <!-- <p>
-          <span class="sp">{{ item.aaa }} </span>
-          <span class="sp">{{ item.bbb }} </span>
-        </p> -->
-        <el-table :data="liss" style="width: 100%">
-          <el-table-column prop="aaa" label="内容" width="180">
-            {{ item.aaa }}
-          </el-table-column>
-          <el-table-column prop="bbb" label="日期" width="180">
-            {{ item.bbb }}
-          </el-table-column>
+    <!--  v-for="(item, i) in liss" :key="i"  -->
 
-          <!--  后面的图标  第一个 -->
-          <el-table-column label="删除">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete()"
-                >删除</el-button
-              >
-            </template>
-          </el-table-column>
+    <!--  这里展示 --- 数据 -->
+    <div>
+      <!-- 表头样式 -->
+      <el-table :data="liss" style="width: 100%">
+        <!--  表头的内容 -->
+        <el-table-column label="内容" width="180" prop="aaa">  </el-table-column>
+        <el-table-column label="日期" width="180" prop="bbb" :formatter = "row => typeof row.bbb === 'string' ? row.bbb :row.bbb.toString() ">  </el-table-column>
 
-          <!-- 后面图标第二个 -->
-          <el-table-column label="完成">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit()">编辑</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </li>
-    </ul>
+        <!--  后面的图标  第一个 -->
+        <el-table-column label="删除">
+          <template>
+            <el-button  type="danger" @click="handleDelete()">删除</el-button>
+          </template>
+        </el-table-column>
+
+        <!-- 后面图标第二个 -->
+        <!-- <el-table-column label="完成">
+          <template>
+            <el-button  @click="handleEdit()">编辑</el-button>
+          </template>
+        </el-table-column> -->
+      </el-table>
+    </div>
 
     <!--  提醒事项  -->
     <div class="count">
@@ -91,15 +81,13 @@ export default {
     btn() {
       // console.log("测试一下");
       // 我这里将  input,,,input3的都要添加到数组里面去,,,,但是要有一点,要注意是,,,,添加到数组的开头,,,还是尾巴处
-      this.liss.push({ aaa: this.input ,bbb: this.value1}),
+      this.liss.push({bbb: this.value1,aaa: this.input }),
         (this.input = ""),
-        (this.value1 = "");
-      console.log(this.liss);
+        (this.value1 = ""),
+        console.log(this.liss);
+
+        //   事项:::看看
     },
-
-
-    // 图标的反应
-    
   },
 
   data() {
@@ -109,14 +97,19 @@ export default {
       // 输入框 ---事情
       input: "",
 
-      // liss: [{ aaa: " ", ddd: " " }],
-      liss:[ ],
+      liss: [],
 
       // 日期
       value1: "",
+      currentRow: null,
       disabledDate(time) {
         return time.getTime() > Date.now();
       },
+
+
+      // 事项数
+      tag:'',
+      tagg:' '
     };
   },
 };
